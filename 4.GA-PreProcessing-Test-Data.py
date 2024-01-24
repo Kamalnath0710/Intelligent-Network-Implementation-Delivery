@@ -25,30 +25,6 @@ def percentile(n):
 
 # COMMAND ----------
 
-# Azure Blob Connection config
-spark.conf.set(
-  "fs.azure.account.key.storageaccountrgnpg9476.blob.core.windows.net",
-  "6ybfxqn1wdp9fazbLG3aTShQBl9Bs51rHnNnv1/vdobntHoE+WjApOODhbCIPR5T9KaGZjgPezZkC9ZhNmtkHw==")
-# Azure Blob Connection config
-spark.conf.set("fs.azure.account.key.dlsnpgroom.dfs.core.windows.net", "BrAj4aua7RglVzIcFEs3z4AGBxN716f3is6YlSVaDGsLqcxI0NdygNKQT+u1grLzVX4gTfs2xVhDHU/FYdwEZg==")
-spark.conf.set("fs.azure.createRemoteFileSystemDuringInitialization", "true")
-spark.conf.set("fs.azure.createRemoteFileSystemDuringInitialization", "false")
-
-# Azure SQL Data Warehouse configuration
-dwDatabase = "groomdw"
-dwServer = "asw-npgroomtest.sql.azuresynapse.net" #The Azure SQL Server
-dwUser = 'sqladminuser' #The dedicated loading user login
-dwPass = 'Grooms$123' #The dediciated loading user login password
-dwJdbcPort =  "1433"
-sqlDwUrl = "jdbc:sqlserver://" + dwServer + ":" + dwJdbcPort + ";database=" + dwDatabase + ";user=" + dwUser+";password=" + dwPass + ";" + "encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC ##Task Level Data - Jan2023 to Mar2023
-
-# COMMAND ----------
-
 df_tasks = spark.read.format("jdbc") \
                             .option("url", sqlDwUrl) \
                             .option("query", """
