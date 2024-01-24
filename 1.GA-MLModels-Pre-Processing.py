@@ -64,35 +64,7 @@ def stats_col(df,groupby_col):
          max('subIntIntervalsDays').alias('max')))
   return out_df
 
-
 # COMMAND ----------
-
-# MAGIC %md
-# MAGIC # Data Warehouse Configuration
-
-# COMMAND ----------
-
-# Azure Blob Connection config
-spark.conf.set(
-  "fs.azure.account.key.storageaccountrgnpg9476.blob.core.windows.net",
-  dbutils.secrets.get('npgroomtest','npgroomblob'))
-
-spark.conf.set("fs.azure.account.key.dlsnpgroom.dfs.core.windows.net",dbutils.secrets.get('npgroomtest','npgroomdls'))
-spark.conf.set("fs.azure.createRemoteFileSystemDuringInitialization", "true")
-spark.conf.set("fs.azure.createRemoteFileSystemDuringInitialization", "false")
-
-# Azure SQL Data Warehouse configuration
-dwDatabase = dbutils.secrets.get('npgroomtest','dwDatabase')
-dwServer = "asw-npgroomtest.sql.azuresynapse.net" #The Azure SQL Server
-dwUser = dbutils.secrets.get('npgroomtest','dwUser') #The dedicated loading user login
-dwPass = dbutils.secrets.get('npgroomtest','dwPass') #The dediciated loading user login password
-dwJdbcPort =  "1433"
-sqlDwUrl = "jdbc:sqlserver://" + dwServer + ":" + dwJdbcPort + ";database=" + dwDatabase + ";user=" + dwUser+";password=" + dwPass + ";" + "encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC ##Task Level Data - January 2022 - December 2022
 
 # COMMAND ----------
 
