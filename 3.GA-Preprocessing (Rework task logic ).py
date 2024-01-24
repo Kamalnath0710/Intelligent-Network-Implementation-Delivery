@@ -16,29 +16,6 @@ warnings.filterwarnings('ignore')
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Data Warehouse Configuration
-# MAGIC
-
-# COMMAND ----------
-
-# Azure Blob Connection config
-spark.conf.set(
-  "fs.azure.account.key.storageaccountrgnpg9476.blob.core.windows.net",
-  dbutils.secrets.get('npgroomtest','npgroomblob'))
-
-spark.conf.set("fs.azure.account.key.dlsnpgroom.dfs.core.windows.net",dbutils.secrets.get('npgroomtest','npgroomdls'))
-spark.conf.set("fs.azure.createRemoteFileSystemDuringInitialization", "true")
-spark.conf.set("fs.azure.createRemoteFileSystemDuringInitialization", "false")
-
-# Azure SQL Data Warehouse configuration
-dwDatabase = dbutils.secrets.get('npgroomtest','dwDatabase')
-dwServer = "asw-npgroomtest.sql.azuresynapse.net" #The Azure SQL Server
-dwUser = dbutils.secrets.get('npgroomtest','dwUser') #The dedicated loading user login
-dwPass = dbutils.secrets.get('npgroomtest','dwPass') #The dediciated loading user login password
-dwJdbcPort =  "1433"
-sqlDwUrl = "jdbc:sqlserver://" + dwServer + ":" + dwJdbcPort + ";database=" + dwDatabase + ";user=" + dwUser+";password=" + dwPass + ";" + "encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
-
 # COMMAND ----------
 
 # DBTITLE 1,Getting the holidays from Lumen calendar
@@ -185,6 +162,3 @@ df_final_sp.write.format("delta").mode("overwrite").option("overwriteSchema", "t
 #checking no of records after preprocessing
 spark.table('ga_test_2022_parallel_task_preprocessed').count()
 
-# COMMAND ----------
-
-display(df_final[(df_final['subIntervalName'] == 'Project Data Enrichment')  & (df_final['T_projecttype'] == 'Mileage Reduction') & (df_final['orderAction'] == 'Grooms')])
